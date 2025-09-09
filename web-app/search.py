@@ -9,7 +9,8 @@ from elasticsearch import Elasticsearch
 load_dotenv()
 PORT = os.getenv("PORT")
 API_KEY = os.getenv("API_KEY")
-
+index_name = os.getenv("INDEX_NAME")
+#remove overwrite test name later
 index_name = "semantic_test"
 
 class Search:
