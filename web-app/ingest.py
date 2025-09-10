@@ -29,7 +29,7 @@ mappings = {
 splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100, length_function=len)
 
 def insert_documents(docs):
-    return helpers.bulk(client.options(request_timeout=300), docs, index=index_name)
+    return helpers.bulk(client.es.options(request_timeout=300), docs, index=index_name)
 
 def process_file(file_name, curr_time, log, file_path = './database/'):
     if file_name.endswith(".pdf"):
