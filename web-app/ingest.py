@@ -1,23 +1,25 @@
 from fileinput import filename
 from datetime import datetime, timezone
 import os
-from elasticsearch import Elasticsearch, helpers
+from opensearchpy import helpers
 import pymupdf
 from docx import Document
 from unstructured.partition.docx import partition_docx
 from unstructured.chunking.basic import chunk_elements
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from search import Search
+from opensearch import Search
 
 client = Search()
 
 client.create_index()
 
+index_name = os.getenv("INDEX_NAME")
+#remove overwrite test name later
 index_name = "semantic_test"
 mappings = {
     "properties": {
         "text": {
-            "type": "semantic_text"
+            "type": "text"
         },
         "updated_at": {
             "type": "date",
@@ -29,7 +31,7 @@ mappings = {
 splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100, length_function=len)
 
 def insert_documents(docs):
-    return helpers.bulk(client.es.options(request_timeout=300), docs, index=index_name)
+    return helpers.bulk(client.client, docs, index=index_name)
 
 def process_file(file_name, curr_time, log, file_path = './database/'):
     if file_name.endswith(".pdf"):
@@ -78,7 +80,7 @@ def process_docx(file_name, curr_time, file_path = './database/'):
         })
     return documents
 
-def ingest_tree(folder_path = './database/temp/'):
+def process_tree(folder_path = './database/temp/'):
     all_documents = []
     date = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
@@ -90,5 +92,4 @@ def ingest_tree(folder_path = './database/temp/'):
     f.close()
     return all_documents
 
-mapping_response = client.es.indices.put_mapping(index=index_name, body=mappings)
-print(mapping_response)
+insert_documents(process_pdf("SUB-27R1-Silt Fence Package.pdf", datetime.now()))

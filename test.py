@@ -62,7 +62,7 @@ def process_docx(file_name, curr_time, file_path = './database/'):
         documents.append({
             "title": file_path,
             "text": chunk.text,
-            "paragraph": "N/A",
+            "page": "N/A",
             "last_edit_date": curr_time
         })
     return documents
@@ -81,4 +81,9 @@ def ingest_tree(folder_path = './database/temp/'):
 
 #print(process_docx("40 72 13 Ultrasonic Level Transmitter.docx", datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")))
 #insert_documents(process_pdf("SUB-27R1-Silt Fence Package.pdf", datetime.datetime.now()))
-insert_documents(ingest_tree())
+#insert_documents(ingest_tree())
+
+#print(process_pdf("Bogart Creek SPS - 90_DD Drawings - YR COMMENTS.pdf", datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")))
+
+
+print(process_docx("NMSSHS - Process Narrative - 2025-08-19_SE.docx", datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")))
