@@ -13,6 +13,8 @@ index_name = os.getenv("INDEX_NAME")
 #remove overwrite test name later
 index_name = "semantic_test"
 
+#LEGACY ELASTICSEARCH VERSION
+
 class Search:
     def __init__(self):
         self.es = Elasticsearch(f'http://localhost:{PORT}', api_key=API_KEY)
