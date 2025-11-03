@@ -41,15 +41,9 @@ class Search:
     def search(self, **query_args):
         return self.client.search(index=index_name, **query_args)
 
-    '''
-    Insert several documents
-    '''
     def insert_document(self, document):
         return self.client.index(index=index_name, body=document)
 
-    '''
-    Bulk insert documents with 1 api call
-    '''
     def insert_documents(self, documents):
         operations = []
         for document in documents:
