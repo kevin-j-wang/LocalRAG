@@ -1,4 +1,6 @@
 .venv/
+.env
+./web-app/.env
 database/
 __pycache__/
 chroma_db/

@@ -13,8 +13,6 @@ auth = ('admin', 'ePiCPasSW0rd1!!!')
 #remove overwrite test name later
 index_name = "semantic_test"
 
-
-
 class Search:
     def __init__(self):
         self.client = OpenSearch(
