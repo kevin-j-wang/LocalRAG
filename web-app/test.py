@@ -6,7 +6,7 @@ import pymupdf
 from docx import Document
 from unstructured.partition.docx import partition_docx
 from unstructured.chunking.basic import chunk_elements
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from opensearch import Search
 
 search = Search()
