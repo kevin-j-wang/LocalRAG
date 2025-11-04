@@ -16,7 +16,6 @@ def index():
 @app.post('/')
 def handle_search():
     query = request.form.get('query', '')
-    #yaya
     #heres where the search happens
     results = search.search(
         body={
