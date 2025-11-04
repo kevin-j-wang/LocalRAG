@@ -1,13 +1,13 @@
 import re
 import markdown
 from flask import Flask, render_template, request
-from search import Search
+from opensearch import Search
 from langchain_ollama.llms import OllamaLLM
 
 
 app = Flask(__name__)
-es = Search()
-llm = OllamaLLM(model="llama3.2")
+search = Search()
+llm = OllamaLLM(model="gpt-oss:20b")
 
 @app.get('/')
 def index():
@@ -16,11 +16,22 @@ def index():
 @app.post('/')
 def handle_search():
     query = request.form.get('query', '')
-    results = es.search(
-        query={
-            'match': {
-                'text': {
-                    'query': query
+
+    #heres where the search happens
+    results = search.search(
+        body={
+            "_source": {
+                "excludes": [
+                    "passage_embedding"
+                ]
+            },
+            "query": {
+                "neural": {
+                    "passage_embedding": {
+                        "query_text": query,
+                        "model_id": "-JcaUJoBSg4Qb7bxz4UP",
+                        "k": 100
+                    }
                 }
             }
         }
@@ -34,8 +45,7 @@ def get_document(id):
 
 @app.cli.command()
 def reindex():
-    """Regenerate the Elasticsearch index."""
-    response = es.reindex()
+    response = search.reindex()
     print(f'Index with {len(response["items"])} documents created '
           f'in {response["took"]} milliseconds.')
     
@@ -48,6 +58,6 @@ def rag(user_request, results):
     relevant_docs = results['hits']['hits'][:top_n]
     concatenated = ""
     for x in relevant_docs:
-        concatenated += f"Title: {x['_source']['title']}\n"
-        concatenated += f"Text: {x['_source']['text']}\n"
+        concatenated += f"Title: {x['_source']['path']}\n"
+        concatenated += f"Text: {x['_source']['passage_text']}\n"
     return llm.invoke(f"{user_request}\n Context: {concatenated}")

@@ -9,36 +9,19 @@ from unstructured.chunking.basic import chunk_elements
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from opensearch import Search
 
+#Model ID: -JcaUJoBSg4Qb7bxz4UP
+
 search = Search()
 
-index_name = 'python-test-index'
-index_body = {
-  'settings': {
-    'index': {
-      'number_of_shards': 4
-    }
-  }
-}
+index_name = 'eto_search'
 
-document = {
-  'title': 'Moneyball',
-  'director': 'Bennett Miller',
-  'year': '2011'
-}
+# model_id = search.client.ml.register_model(
+#     body={
+#         "name": "huggingface/sentence-transformers/msmarco-distilbert-base-tas-b",
+#         "version": "1.0.3",
+#         "model_group_id": "6ZcaUJoBSg4Qb7bxcYUw",
+#         "model_format": "TORCH_SCRIPT"
+#     }
+# )
+# print(model_id)
 
-response = search.client.index(
-    index = 'python-test-index',
-    body = document,
-    id = '1',
-    refresh = True
-)
-
-model_id = search.client.ml.register_model(
-    body={
-        "name": "huggingface/sentence-transformers/msmarco-distilbert-base-tas-b",
-        "version": "1.0.3",
-        "model_group_id": "Z1eQf4oB5Vm0Tdw8EIP2",
-        "model_format": "TORCH_SCRIPT"
-    }
-)
-print(model_id)

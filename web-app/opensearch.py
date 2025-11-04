@@ -9,9 +9,11 @@ load_dotenv()
 PORT = os.getenv("PORT")
 API_KEY = os.getenv("API_KEY")
 index_name = os.getenv("INDEX_NAME")
+MODEL_ID = '-JcaUJoBSg4Qb7bxz4UP'
+
 auth = ('admin', 'ePiCPasSW0rd1!!!')
 #remove overwrite test name later
-index_name = "semantic_test"
+index_name = "test"
 
 class Search:
     def __init__(self):
