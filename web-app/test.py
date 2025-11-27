@@ -13,7 +13,7 @@ from opensearch import Search
 
 search = Search()
 
-index_name = 'eto_search'
+index_name = 'test'
 
 # model_id = search.client.ml.register_model(
 #     body={
@@ -25,3 +25,12 @@ index_name = 'eto_search'
 # )
 # print(model_id)
 
+docs = [{
+  "passage_text": "testing testing 123 keywords keywords blueberry apple dog wolf",
+  "path": "/home/bome/yeah",
+  "last_edit": "2001-01-01",
+  "page": 4
+}]
+
+helpers.bulk(search.client, docs, index=index_name, pipeline="nlp-ingest-pipeline",request_timeout=120)
+print("yeah")

@@ -53,13 +53,13 @@
                 </div>
                 {% for result in results %}
                     <p>
-                        {{ from_ + loop.index }}. <b><a href="{{ url_for('get_document', id=result._id) }}">{{ result._source.title }}</a></b>
+                        {{ from_ + loop.index }}. <b><a href="{{ url_for('get_document', id=result._id) }}">{{ result._source.path }}</a></b>
                         <br>
-                        {{ result._source.text }}
+                        {{ result._source.passage_text }}
                         <br>
                         <small>
                             Page Number: {{ result._source.page }}.
-                            Last updated: {{ result._source.updated_at | default(result._source.created_on) }}.
+                            Last updated: {{ result._source.last_edit | default(result._source.created_on) }}.
                             {% if result._score %}<i>(Score: {{ result._score }})</i>{% endif %}
                         </small>
                     </p>

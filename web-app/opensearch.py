@@ -7,13 +7,10 @@ from dotenv import load_dotenv
 from opensearchpy import OpenSearch
 load_dotenv()
 PORT = os.getenv("PORT")
-API_KEY = os.getenv("API_KEY")
 index_name = os.getenv("INDEX_NAME")
 MODEL_ID = '-JcaUJoBSg4Qb7bxz4UP'
 
 auth = ('admin', 'ePiCPasSW0rd1!!!')
-#remove overwrite test name later
-index_name = "test"
 
 class Search:
     def __init__(self):
@@ -50,3 +47,6 @@ class Search:
             operations.append({'index': {'_index': index_name}})
             operations.append(document)
         return self.client.bulk(operations=operations)
+    
+    def delete(self, document_id):
+        return self.client.delete(index = index_name, id=document_id)
